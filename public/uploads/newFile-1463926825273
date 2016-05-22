@@ -1,0 +1,70 @@
+%Aim of the project is to demonstrate the following statements :-
+%	1) For any invertible matrix m of order nxn, a similar diagonal matrix can be generated from the eigenvalues of m.
+%	2) After scaling a matrix m by a value s, the original matrix can be obtained from the eigenvalues of the scaled matrix.
+%	3) To check whether a square matrix is diagonalizable or not.
+%	
+%	methods applied in the below code are :-
+%	1) Inverse of a matrix
+%	2) Eigenvalues and Eigenvectors of a matrix
+%	3) Scaling a matrix
+%	4) matrix Diagonalization
+
+
+%matrix used for the demonstration(12x12)
+
+matx = [1 2 3 4 5 6 8 9 10 9 11 13; 
+	 	5 6 7 8 9 10 11 13 15 4 1 12;
+	 	1 8 9 5 3 7 2 6 8 9 3 11;
+	 	4 7 3 2 9 10 12 11 8 6 5 13;
+	 	14 13 12 11 9 8 7 6 5 4 3 9;
+	 	5 3 9 4 12 9 7 13 12 6 3 1;
+	 	8 2 9 3 1 12 14 9 5 4 11 15;
+	 	14 8 9 5 6 12 13 4 1 18 7 3;
+	 	2 3 5 9 6 4 7 12 13 15 5 7;
+	 	9 2 1 5 7 3 4 12 15 11 16 6;
+	 	7 9 11 12 5 4 3 2 1 8 6 15;
+	 	3 1 7 9 8 5 2 12 13 14 11 4;
+	  ];
+
+function f = scale(x)
+	display("matrix used is");
+	display(x);
+	scalex = x*5;				%input matrix is scaled by 5
+	[q,d] = eig(x);				%this function generates eigenvalues of x. d is a diagonal matrix of eigenvalues of x 
+	[m,n] = eig(scalex);		%this function generates eigenvalues of scalex. columns of m are the eigenvalues of scalex
+	%display(d);
+	%display(n);
+
+	% code fragment to perform the similarity check.
+	% this checks whether x = q*n*inverse(q)
+	% note that i am using the eigenvalue matrix for scalex, still the output is equal to matrix x
+	s = m*d;
+	b = inv(m);
+	y = s*b;
+	display("ouput matrix is");
+	display(real(y));
+	display("If both matrices match then we can say that the original matrix can be obtained from the eigenvalues of the scaled matrix");
+end
+
+%function to find similar matrix for input matrix from eigenvalues of the input matrix
+
+function e = findsimilarmatrix(x)
+	display("input matrix is");
+	display(x);
+	[q,d] = eig(x);			%this function generates eigenvalues of x. d is a diagonal matrix of eigenvalues of x
+	%display(q);
+
+	% code fragment to perform the similarity check for matrices
+	% this part of the code checks whether x = q*d*inv(q)
+
+	m = inv(q);
+	s = q*d;
+	y = s*m;
+	display("output matrix is");
+	display(real(y));
+	display("If the two matrices match, then we can say that eigenvalues of a matrix generates a similar matrix for the matrix and that the matrix is diagonalizable");
+end
+
+% function calls
+scale(matx);
+%findsimilarmatrix(matx);
